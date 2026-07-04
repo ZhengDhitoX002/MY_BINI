@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.mybini.app.data.downloader.AdBlocker
 import com.mybini.app.data.downloader.LinkSniffer
@@ -45,6 +46,29 @@ fun BrowserScreen(
     // Inisialisasi Ad-Blocker sekali di level layar
     LaunchedEffect(Unit) {
         AdBlocker.init(context)
+    }
+
+    var isDesktopMode by remember { mutableStateOf(false) }
+
+    LaunchedEffect(isDesktopMode, webView) {
+        webView?.let { wv ->
+            val settings = wv.settings
+            if (isDesktopMode) {
+                settings.userAgentString = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+                settings.useWideViewPort = true
+                settings.loadWithOverviewMode = true
+            } else {
+                val defaultUA = android.webkit.WebSettings.getDefaultUserAgent(context)
+                val cleanUA = defaultUA
+                    .replace("; wv)", ")")
+                    .replace("Version/4.0 ", "")
+                    .replace("wv", "")
+                settings.userAgentString = cleanUA
+                settings.useWideViewPort = true
+                settings.loadWithOverviewMode = true
+            }
+            wv.reload()
+        }
     }
 
     Box(modifier = modifier.fillMaxSize()) {
@@ -93,6 +117,13 @@ fun BrowserScreen(
 
                 IconButton(onClick = { webView?.reload() }) {
                     Icon(Icons.Default.Refresh, contentDescription = "Reload", tint = Color.White)
+                }
+
+                IconButton(onClick = { isDesktopMode = !isDesktopMode }) {
+                    Text(
+                        text = if (isDesktopMode) "💻" else "📱",
+                        fontSize = 20.sp
+                    )
                 }
             }
 
