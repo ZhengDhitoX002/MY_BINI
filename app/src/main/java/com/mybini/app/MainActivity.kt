@@ -41,6 +41,8 @@ import com.mybini.app.ui.screens.SettingsScreen
 import com.mybini.app.ui.screens.AppTheme
 import androidx.compose.ui.platform.LocalContext
 import android.content.Intent
+import android.net.Uri
+import androidx.compose.foundation.BorderStroke
 import java.io.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -352,6 +354,29 @@ fun PlaceholderScreen(
                 if (torrentStatus.isNotEmpty()) {
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(text = torrentStatus, color = Color.White, fontSize = 14.sp)
+                }
+
+                Spacer(modifier = Modifier.height(20.dp))
+                OutlinedButton(
+                    onClick = {
+                        try {
+                            val launchIntent = context.packageManager.getLaunchIntentForPackage("com.instagram.android")
+                            if (launchIntent != null) {
+                                context.startActivity(launchIntent)
+                            } else {
+                                val playStoreIntent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.instagram.android"))
+                                context.startActivity(playStoreIntent)
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    },
+                    border = BorderStroke(1.dp, Color(0x33FFFFFF)),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Buka Aplikasi Instagram Native", fontWeight = FontWeight.SemiBold)
                 }
             }
         }

@@ -124,13 +124,9 @@ fun BrowserScreen(
                                 try {
                                     val intent = android.content.Intent.parseUri(url, android.content.Intent.URI_INTENT_SCHEME)
                                     if (intent != null) {
-                                        val info = context.packageManager.resolveActivity(
-                                            intent,
-                                            android.content.pm.PackageManager.MATCH_DEFAULT_ONLY
-                                        )
-                                        if (info != null) {
+                                        try {
                                             context.startActivity(intent)
-                                        } else {
+                                        } catch (e: android.content.ActivityNotFoundException) {
                                             val fallbackUrl = intent.getStringExtra("browser_fallback_url")
                                             if (fallbackUrl != null) {
                                                 view?.loadUrl(fallbackUrl)
