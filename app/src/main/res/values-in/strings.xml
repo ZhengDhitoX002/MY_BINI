@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">MY BINI</string>
+    <string name="tab_home">Beranda</string>
+    <string name="tab_browser">Browser</string>
+    <string name="tab_library">Pustaka</string>
+    <string name="tab_vault">Bilik Rahasia</string>
+    <string name="tab_settings">Pengaturan</string>
+    <string name="paste_link_placeholder">Tempel tautan video atau musik di sini...</string>
+    <string name="btn_download">Unduh</string>
+    <string name="status_analyzing">Menganalisis tautan...</string>
+    <string name="title_history">Riwayat Unduhan</string>
+    <string name="empty_history">Belum ada unduhan</string>
+    <string name="private_vault_title">Bilik Rahasia</string>
+    <string name="enter_passcode">Masukkan Sandi Rahasia</string>
+</resources>

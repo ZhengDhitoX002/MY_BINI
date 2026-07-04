@@ -1,0 +1,52 @@
+# =========================================================================
+# MY BINI Android Project - Git Ignore Template
+# =========================================================================
+
+# 1. JVM Heap Dump & Memory Logs (SANGAT BESAR - HARUS DIABAIKAN!)
+*.hprof
+*.log
+*.temp
+
+# 2. Direktori Kompilasi (Build Artifacts)
+build/
+app/build/
+bin/
+gen/
+out/
+
+# 3. Cache Alat Pengembangan & Compiler
+.gradle/
+.kotlin/
+.kotlin-compiler-daemon/
+
+# 4. Berkas Konfigurasi Lokal & Kunci Sensitif (SANGAT RAHASIA!)
+local.properties
+*.jks
+*.keystore
+*.pkcs12
+*.p12
+*.key
+google-services.json
+
+# 5. Database Sementara & Berkas Cadangan Luring
+*.db
+*.db-journal
+*.db-wal
+*.mybini
+backups/
+
+# 6. Konfigurasi IDE (Android Studio & VS Code)
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.navigation/
+
+# 7. Berkas Sistem Operasi
+.DS_Store
+Thumbs.db
+
+# 8. Folder Kustomisasi Agen AI
+.agents/
+releases/
