@@ -116,12 +116,19 @@ fun BrowserScreen(
                         settings.loadWithOverviewMode = true
                         settings.javaScriptCanOpenWindowsAutomatically = true
                         settings.mixedContentMode = android.webkit.WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
-                        settings.userAgentString = "Mozilla/5.0 (Linux; Android 13; SM-S901B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Mobile Safari/537.36"
+                        
+                        // Deteksi User-Agent bawaan dan hilangkan penanda "; wv" dan "Version/4.0" (Bypass Blokir Login Instagram)
+                        val defaultUA = settings.userAgentString
+                        val cleanUA = defaultUA
+                            .replace("; wv)", ")")
+                            .replace("Version/4.0 ", "")
+                        settings.userAgentString = cleanUA
                         
                         val cookieManager = android.webkit.CookieManager.getInstance()
                         cookieManager.setAcceptCookie(true)
                         cookieManager.setAcceptThirdPartyCookies(this, true)
 
+                        webChromeClient = android.webkit.WebChromeClient()
                         webViewClient = object : WebViewClient() {
                             
                             override fun shouldOverrideUrlLoading(
