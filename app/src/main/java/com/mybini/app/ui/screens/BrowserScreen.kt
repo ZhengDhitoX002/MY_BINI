@@ -48,7 +48,11 @@ fun BrowserScreen(
     }
 
     Box(modifier = modifier.fillMaxSize()) {
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 96.dp)
+        ) {
             // Address Bar & Navigasi
             Row(
                 modifier = Modifier
@@ -109,6 +113,37 @@ fun BrowserScreen(
                         settings.domStorageEnabled = true
                         webViewClient = object : WebViewClient() {
                             
+                            override fun shouldOverrideUrlLoading(
+                                view: WebView?,
+                                request: WebResourceRequest?
+                            ): Boolean {
+                                val url = request?.url?.toString() ?: return false
+                                if (url.startsWith("http://") || url.startsWith("https://")) {
+                                    return false
+                                }
+                                try {
+                                    val intent = android.content.Intent.parseUri(url, android.content.Intent.URI_INTENT_SCHEME)
+                                    if (intent != null) {
+                                        val info = context.packageManager.resolveActivity(
+                                            intent,
+                                            android.content.pm.PackageManager.MATCH_DEFAULT_ONLY
+                                        )
+                                        if (info != null) {
+                                            context.startActivity(intent)
+                                        } else {
+                                            val fallbackUrl = intent.getStringExtra("browser_fallback_url")
+                                            if (fallbackUrl != null) {
+                                                view?.loadUrl(fallbackUrl)
+                                            }
+                                        }
+                                        return true
+                                    }
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
+                                return true
+                            }
+
                             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                                 super.onPageStarted(view, url, favicon)
                                 isLoading = true
